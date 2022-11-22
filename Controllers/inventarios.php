@@ -41,6 +41,7 @@ class InventariosController
     public static function getSucursales(){
         $inventarios = new Inventario;
         $sucursales = $inventarios->getSucursalesConAlmacen();
+        // echo $sucursales."   aqui  ";
         $sucursalesHerramienta = $inventarios->getAlmacenesHerramientas();
         foreach ($sucursales as $i => $sucursal) {
             $sucursales[$i]->DESCRIPCION = utf8_decode( $sucursal->DESCRIPCION ); 
@@ -50,6 +51,7 @@ class InventariosController
             $sucursalesHerramienta[$i]->DESCRIPCION = utf8_decode( $sucursal->DESCRIPCION ); 
         }
         $sucursales = array_merge( $sucursales , $sucursalesHerramienta);
+        // echo $sucursales;
         return $sucursales;
     }
 
@@ -409,17 +411,23 @@ class InventariosController
     
     public function RegistraInventarioGeneral( $productos) // entra en funcion cuando se le da en confirmar inventario
     {
-        // // var_dump(__FUNCTION__. "deteniendo proceso");
-        $reporte = new InventariosController;
-        $reporte->RegistrarInventarioGeneralInmediato($productos);
+        // var_dump(__FUNCTION__. "deteniendo proceso");
+        // $reporte = new InventariosController;
+        // $reporte->RegistrarInventarioGeneralInmediato($productos);
+
 
         $inventarios = new Inventario;
-        return $inventarios->RegistraInventarioGeneral( $productos);
-        // llamar a funcion para elaborar el excel de los articulos seleccionados
+        $inv = $inventarios->RegistraInventarioGeneral( $productos);
+        // $data = $inventarios->obetenerInventarioSeleccionado();
+        $reporte = new ReporteInventarioInmediato;
+        $reporte->generarReporte();
 
+        return $inv;
     }
 
     public function RegistrarInventarioGeneralInmediato($productos){
+        var_dump(__FUNCTION__. "deteniendo proceso");
+
         $productos_marcados = [];
 
         foreach ($productos as $producto_ind) {
@@ -459,7 +467,8 @@ class InventariosController
         // Concatenando los valores de insercion y posteriormente insertar
         $valuesInsert = '';
         foreach ($listaArticulos as $valoresAInsertar ) {
-            $valuesInsert .= "INSERT INTO REF_INVENTARIOSTMP(FKCFG_ARTICULOS,FKCFG_ALMACENES,USUARIO,AUDITOR) VALUES".$valoresAInsertar->VALUESSQL.';';
+            // $valuesInsert .= "INSERT INTO REF_INVENTARIOSTMP(FKCFG_ARTICULOS,FKCFG_ALMACENES,USUARIO,AUDITOR) VALUES".$valoresAInsertar->VALUESSQL.';';
+            $valuesInsert .= "INSERT INTO REF_INVENTARIOSTMP(FKCFG_ARTICULOS,FKCFG_ALMACENES,USUARIO) VALUES".$valoresAInsertar->VALUESSQL.';';
         }
 
         

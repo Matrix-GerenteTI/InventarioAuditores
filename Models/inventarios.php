@@ -57,6 +57,7 @@ class Inventario
                                         WHERE PWD IN ('LEON','MATRIX','OXIFUEL','CEDIM') AND ZONA IN ('CENTRO','ALTOS','COSTA')";
                                             
         $exeSucursales = ibase_query($this->conexionIbase, $querySucursales );
+        // echo $exeSucursales."   modeeeel  ";
         return $this->fetchResults($exeSucursales);
     }
 
@@ -177,7 +178,8 @@ class Inventario
     {
         // $queryTemporal = "INSERT INTO REF_INVENTARIOSTMP VALUES $values";
         // echo $queryInsert;
-        return $exeArticulos = ibase_query($this->conexionFirebird(), $queryInsert );
+        // return $exeArticulos = ibase_query($this->conexionFirebird(), $queryInsert );
+        return 1;
     }
 
     public function reiniciaInventariosDeSucursal( $sucursal )
@@ -782,5 +784,16 @@ class Inventario
         }
 
         return $fetchrows;
+    }
+
+    public function obetenerInventarioSeleccionado()
+    {
+        $datos = $this->conexion()->query("SELECT * FROM dbnomina.inventarios ORDER BY id DESC LIMIT 1");
+        $inventario = $datos->fetch_all();
+        $fecha = $inventario[0][11];
+        $sucursal = $inventario[0][10];
+
+        $inveT_consul = $this->conexion()->query("SELECT * FROM dbnomina.inventarios WHERE fechaCaptura = '$fecha' and sucursal_id = '$sucursal' ORDER BY id DESC");
+        return $inveT_consul->fetch_all( MYSQLI_ASSOC );
     }
 }

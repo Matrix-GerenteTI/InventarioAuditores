@@ -180,6 +180,7 @@ let vmDashboard = new Vue({
                     opc: 'sucursales'
                 }
             }).then((response) => {
+                console.log(response.data)
                 this.sucursales = response.data;
             }).catch((err) => {
                 console.log("Error");
@@ -247,7 +248,8 @@ console.log('guardaInventario')
             action = self.inventario[0].id == undefined ? 0 : self.inventario[0].id
             axios.post('/InventarioAuditores/Controllers/inventarios.php', { auditor: auditor, inventario: resultadoInventario, action: action, tipo: self.tipoInventario, observacion: conObservacion == false ? '-' : this.observacionesHerramientas }).then((result) => {
                 if (parseInt(result.data) > 0) {
-                    alert("Se registró correctamente")
+                    alert("Se registró correctamente ")
+                    console.log(result.data)
                     this.loading = !this.loading;
                     localStorage.removeItem('inventario');
                     localStorage.removeItem('sucursal');
@@ -266,6 +268,9 @@ console.log('guardaInventario')
             }).catch((err) => {
 
             });
+        },
+        enviarReporteInmediato: function(){
+            alert("hola")
         },
         guardaInventarioConComentarios: function() {
 console.log('guardaInventarioConComentarios')

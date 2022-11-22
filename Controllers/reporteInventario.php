@@ -97,7 +97,7 @@ class ReporteInventario extends PrepareExcel
                         $this->libro->getActiveSheet()->setCellValue("J$i","=H$i-I$i");
                     }
                     $this->libro->getActiveSheet()->setCellValue("K$i","=C$i*J$i");      
-                    $this->libro->getActiveSheet()->getStyle("K$i")->getNumberFormat()->setFormatCode("$#,##0.00;-$#,##0.00");                       
+                    $this->libro->getActiveSheet()->getStyle("K$i")->getNumberFormat()->setFormatCode("$#,##0.00;-$#,##0.00");
                     $i++;           
                 }
 

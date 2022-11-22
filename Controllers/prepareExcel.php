@@ -135,7 +135,7 @@ class PrepareExcel
             // var_dump( $statusEnvio );
              echo "[".$emailsender->ErrorInfo."] - Problemas enviando correo electrónico a ";
         } else {
-            echo "Enviado";
+            // echo "Enviado";
         }
     }
 }
